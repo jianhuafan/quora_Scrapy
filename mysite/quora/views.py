@@ -6,6 +6,9 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 
 from .models import Question, Answer
+
+from quora.addr_parser import *
+
 # Create your views here.
 @login_required
 def index(request):
@@ -29,18 +32,19 @@ def detail(request, question_id):
 	return render(request, 'quora/detail.html', context)
 
 def userMap(request):
-	return render(request, 'quora/geochart.html')
+	geoTable = addr_path_to_geoTable()
+	return render(request, 'quora/geochart.html', {'geoTable': geoTable})
 
 def signup(request):
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('index')
-    else:
-        form = UserCreationForm()
-    return render(request, 'quora/signup.html', {'form': form})
+	if request.method == 'POST':
+		form = UserCreationForm(request.POST)
+		if form.is_valid():
+			form.save()
+			username = form.cleaned_data.get('username')
+			raw_password = form.cleaned_data.get('password1')
+			user = authenticate(username=username, password=raw_password)
+			login(request, user)
+			return redirect('index')
+	else:
+		form = UserCreationForm()
+	return render(request, 'quora/signup.html', {'form': form})
