@@ -1,0 +1,19 @@
+<h1>{{ question.question_title }}</h1>
+<ul>
+     <li>question link: <a href="{{question.q_url}}">{{question.q_url}}</a></li>
+      <li>number of answers: {{question.answer_cnt}}</li>
+
+</ul
+
+{% if answer_list %}
+	<ul>
+	{% for answer in answer_list %}
+		<li>user link: <a href="{{answer.user_url}}">{{answer.user_url}}</a></li>
+		<li>user name: {{answer.user_name}}</li>
+		<li>number of views: {{answer.views}}</li>
+		<p></p>
+	{% endfor %}
+	</ul>
+{% else %}
+	<p>No answers yet</p>
+{% endif %}

@@ -6,7 +6,7 @@ def dump_question_into_db(q_info, table):
 
 	cursor.execute('USE quora_db')
 
-	sql = 'INSERT INTO ' + table + '(question_title, q_url, answer_cnt, question_details) VALUES (%s, %s, %s, %s)'
+	sql = 'INSERT INTO ' + table + '(question_title, q_url, answer_cnt) VALUES (%s, %s, %s)'
 	
 	try:
 		cursor.execute(sql, q_info)
@@ -26,7 +26,7 @@ def dump_answer_into_db(ans_info, table):
 
 	cursor.execute('USE quora_db')
 
-	sql = 'INSERT INTO ' + table + ' (question_title, user_name, user_url, views, upvotes) values (%s, %s, %s, %s, %s)'
+	sql = 'INSERT INTO ' + table + ' (question_title, user_name, user_url, views) values (%s, %s, %s, %s)'
 	try:
 		cursor.executemany(sql, ans_info)
 		conn.commit()
@@ -46,21 +46,21 @@ if __name__ == '__main__':
 
 	cursor.execute('USE quora_db')
 
-	# cursor.execute('create table question (question_title varchar(1000) not null, q_url varchar(1000), answer_cnt int, question_details varchar(10000), primary key (question_title));')
-	# cursor.execute('create table answer (question_title varchar(1000), user_name varchar(1000), user_url varchar(1000), views int, upvotes int, primary key (question_title, user_name));')
+	cursor.execute('create table if not exists question (question_id int not null auto_increment, question_title varchar(255) not null, q_url varchar(255), answer_cnt int, primary key (question_id));')
+	cursor.execute('create table if not exists answer (answer_id int not null auto_increment, question_title varchar(255), user_name varchar(255), user_url varchar(255), views int, primary key (answer_id));')
 
-	sql = 'select * from question'
+	# sql = 'select * from question'
 
 	# sql = 'select * from answer'
-	sql = 'truncate table question'
+	# sql = 'truncate table question'
 
-	cursor.execute(sql)
+	# cursor.execute(sql)
 
 	cursor.close()
 	conn.close()
 
-	temple_q = ('cc', 'aa', 3, 'bb')
-	temple_a = ('hh', 'aa', 'cc', 3, 4)
+	# temple_q = ('cc', 'aa', 3, 'bb')
+	# temple_a = ('hh', 'aa', 'cc', 3, 4)
 	# temple_q = ('dd', 'jj')
 
 	# dump_question_into_db(temple_q, 'question')

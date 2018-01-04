@@ -1,0 +1,17 @@
+<h1>Quora Digest</h1>
+
+{% block content %}
+  <h2>Welcome, {{ user.username }}!</h2>
+{% endblock %}
+
+<a href="/quora/usermap/">User map for Quora!</a>
+
+{% if question_list %}
+	<ul>
+	{% for question in question_list %}
+		<li><a href="/quora/{{question.question_id}}/">{{question.question_title}}</a></li>
+	{% endfor %}
+	</ul>
+{% else %}
+	<p>No question are available.</p>
+{% endif %}
